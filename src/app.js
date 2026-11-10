@@ -1,7 +1,7 @@
 // Importa Express y el almacen de productos
 const express = require('express');
 const store = require('./store');
-const variableSinUsar = 'fallo intencional de linting';
+
 // Crea la aplicacion
 const app = express();
 app.use(express.json());
