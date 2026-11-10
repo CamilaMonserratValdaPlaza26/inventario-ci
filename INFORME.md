@@ -131,7 +131,7 @@ Respecto al costo, GitHub Actions no consume minutos de ejecucion en repositorio
 
 ## 6. Interfaz de visualizacion agregada al finalizar el laboratorio
 
-Al finalizar el laboratorio se agrego una pagina informativa sencilla en la ruta raiz `/` de la API para tener una visualizacion del servicio en el navegador. La pagina no modifica la logica del CRUD: solo presenta una descripcion breve, enlaces a `/health` y `/productos`, y la tabla de endpoints.
+Al finalizar el laboratorio se agrego una pagina informativa sencilla en la ruta raiz `/` de la API para tener una visualizacion del servicio en el navegador. La pagina no modifica la logica del CRUD: solo presenta una descripcion breve, enlaces a `/health` y `/productos`, y la tabla de endpoints. La ruta se implemento en `src/app.js` con `res.type('html').send(...)`, por lo que el navegador recibe HTML en lugar de JSON.
 
 Archivos modificados:
 
@@ -140,24 +140,33 @@ Archivos modificados:
 - `README.md`: se documento la ruta `/` y la ejecucion local.
 - `INFORME-LAB-5.1.md`: se agrego esta seccion y las capturas de evidencia.
 
-Para ejecutarlo y verlo en el navegador:
+### 6.1 Comandos de ejecucion
 
 ```bash
 npm install
 npm start
 ```
 
+- `npm install` descarga e instala las dependencias declaradas en `package.json` (Express, Jest, Supertest y ESLint) dentro de `node_modules`. Se ejecuta una vez o cuando cambian las dependencias.
+- `npm start` ejecuta el script `start` de `package.json`, que a su vez corre `node server.js`. El servidor queda escuchando en el puerto `3000` (o el que indique la variable `PORT`).
+
+### 6.2 Pagina informativa
+
 Se abre `http://localhost:3000/` y se observa la pagina informativa de la API.
 
 ![Figura 6.1. Pagina informativa de la API](./img/anexo/46.png)
 
-**Figura 6.1.** Pagina informativa agregada en `http://localhost:3000/`.
+**Figura 6.1.** Pagina informativa agregada en `http://localhost:3000/`. La ruta `GET /` devuelve una pagina HTML con el nombre de la API, una descripcion, dos botones de navegacion y la tabla de endpoints. No forma parte del CRUD; su unico objetivo es tener una visualizacion rapida del servicio.
 
-Tambien se verifica el estado del servicio en `http://localhost:3000/health`.
+### 6.3 Verificacion del estado del servicio
+
+Se verifica el estado en `http://localhost:3000/health`.
 
 ![Figura 6.2. Respuesta de /health](./img/anexo/47.png)
 
-**Figura 6.2.** Endpoint `/health` respondiendo `{"status":"ok"}` en el navegador.
+**Figura 6.2.** Endpoint `/health` respondiendo `{"status":"ok"}` en el navegador. La ruta `GET /health` devuelve el codigo HTTP 200 y un JSON con el estado del servicio. Se usa para comprobar que el servidor esta vivo; en el Laboratorio 5.2 este mismo endpoint se usara como health check antes de desplegar un contenedor.
+
+### 6.4 Creacion de productos con curl
 
 Para cargar dos productos de ejemplo se ejecutan las siguientes peticiones:
 
@@ -166,15 +175,31 @@ curl -X POST http://localhost:3000/productos -H "Content-Type: application/json"
 curl -X POST http://localhost:3000/productos -H "Content-Type: application/json" -d '{"nombre":"Mouse","precio":20,"stock":10}'
 ```
 
+- `curl` es una herramienta de linea de comandos para hacer peticiones HTTP.
+- `-X POST` indica el metodo HTTP POST, que en esta API se usa para crear un producto.
+- `http://localhost:3000/productos` es la URL del endpoint de creacion.
+- `-H "Content-Type: application/json"` indica que el cuerpo de la peticion esta en formato JSON; gracias a `express.json()` el servidor puede leerlo.
+- `-d '{"nombre":"Laptop","precio":1200,"stock":5}'` envia los datos del producto: nombre, precio y stock.
+
+La respuesta de cada peticion es el producto creado con su `id` asignado por el almacen en memoria (`{"id":1,...}` y `{"id":2,...}`).
+
 ![Figura 6.3. Creacion de dos productos](./img/anexo/48.png)
 
-**Figura 6.3.** Terminal con las dos peticiones `POST /productos` que crean los productos Laptop y Mouse.
+**Figura 6.3.** Terminal con las dos peticiones `POST /productos` y sus respuestas. Se observa que el primer producto (Laptop) recibe el `id` 1 y el segundo (Mouse) el `id` 2. Los productos se guardan en memoria, por lo que se pierden al reiniciar el servidor.
+
+### 6.5 Lista de productos
 
 Despues se abre `http://localhost:3000/productos` y se observan los dos productos creados.
 
 ![Figura 6.4. Lista con dos productos](./img/anexo/49.png)
 
-**Figura 6.4.** Endpoint `/productos` con los dos productos creados.
+**Figura 6.4.** Endpoint `/productos` con los dos productos creados. La ruta `GET /productos` devuelve un arreglo JSON con todos los productos del almacen en memoria. En este caso se ven Laptop y Mouse, creados con las peticiones anteriores.
+
+### 6.6 Detalle adicional de las peticiones
+
+![Figura 6.5. Detalle de las peticiones POST](./img/anexo/50.png)
+
+**Figura 6.5.** Segunda captura de las peticiones `POST /productos`. Se incluye como evidencia adicional para mostrar con mas detalle los comandos ejecutados y las respuestas obtenidas al crear los dos productos.
 
 ## 7. Conclusiones
 
@@ -184,7 +209,7 @@ El ejercicio tambien demuestra el flujo completo: se creo una rama, se provoco u
 
 ## 8. Anexo: capturas completas del proceso
 
-En esta seccion se incluyen las 49 capturas del proceso completo, en orden cronologico. Las evidencias principales estan resumidas en la seccion 4.
+En esta seccion se incluyen las 50 capturas del proceso completo, en orden cronologico. Las evidencias principales estan resumidas en la seccion 4.
 
 **Nota:** algunas capturas muestran la interfaz traducida automaticamente al espanol. El nombre real del check obligatorio es `build-and-test`.
 
@@ -382,20 +407,24 @@ En esta seccion se incluyen las 49 capturas del proceso completo, en orden crono
 
   ![45](./img/anexo/45.png)
 
-### 8.8 Interfaz de visualizacion (46-49)
+### 8.8 Interfaz de visualizacion (46-50)
 
-- **46. Pagina informativa de la API.** Se observa la pagina agregada en `http://localhost:3000/`, con la descripcion, los enlaces y la tabla de endpoints.
+- **46. Pagina informativa de la API.** Se observa la pagina agregada en `http://localhost:3000/`, con el nombre de la API, una descripcion breve, los botones hacia `/health` y `/productos`, y la tabla de endpoints. La ruta `GET /` devuelve HTML y no afecta la logica del CRUD.
 
   ![46](./img/anexo/46.png)
 
-- **47. Respuesta de /health.** Se observa la respuesta `{"status":"ok"}` del endpoint de estado en el navegador.
+- **47. Respuesta de /health.** Se observa la respuesta `{"status":"ok"}` del endpoint de estado en el navegador. La ruta `GET /health` devuelve HTTP 200 y sirve para verificar que el servidor esta activo; en el Laboratorio 5.2 se usara como health check del contenedor.
 
   ![47](./img/anexo/47.png)
 
-- **48. Creacion de dos productos.** Se observan las dos peticiones `POST /productos` ejecutadas con `curl` para crear los productos Laptop y Mouse.
+- **48. Creacion de dos productos.** Se observan las dos peticiones `POST /productos` ejecutadas con `curl`. El parametro `-X POST` define el metodo, `-H` indica que el cuerpo es JSON y `-d` envia los datos. Las respuestas muestran los productos creados con `id` 1 (Laptop) e `id` 2 (Mouse).
 
   ![48](./img/anexo/48.png)
 
-- **49. Lista con dos productos.** Se observa la respuesta de `http://localhost:3000/productos` con los dos productos creados.
+- **49. Lista con dos productos.** Se observa la respuesta de `http://localhost:3000/productos` con los dos productos creados. La ruta `GET /productos` devuelve el arreglo JSON del almacen en memoria, por lo que la lista se reinicia al reiniciar el servidor.
 
   ![49](./img/anexo/49.png)
+
+- **50. Detalle de las peticiones POST.** Se observa una segunda captura de los mismos comandos `curl` y de sus respuestas. Se incluye como evidencia adicional para mostrar con mas detalle el cuerpo JSON enviado y los identificadores asignados a cada producto.
+
+  ![50](./img/anexo/50.png)
