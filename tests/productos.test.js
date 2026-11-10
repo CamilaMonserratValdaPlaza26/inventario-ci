@@ -16,6 +16,12 @@ describe('API de inventario', () => {
     expect(res.body).toEqual({ status: 'ok' });
   });
 
+  test('GET / responde con la pagina informativa', async () => {
+    const res = await request(app).get('/');
+    expect(res.statusCode).toBe(200);
+    expect(res.text).toContain('API de Inventario');
+  });
+
   test('GET /productos devuelve lista vacia', async () => {
     const res = await request(app).get('/productos');
     expect(res.statusCode).toBe(200);

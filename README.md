@@ -12,6 +12,7 @@ API CRUD de inventario con integracion continua.
 
 | Metodo | Ruta | Descripcion |
 |---|---|---|
+| GET | `/` | Pagina informativa de la API |
 | GET | `/health` | Estado del servicio |
 | GET | `/productos` | Lista todos los productos |
 | GET | `/productos/:id` | Obtiene un producto por id |
