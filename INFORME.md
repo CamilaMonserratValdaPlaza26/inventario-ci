@@ -45,7 +45,7 @@ Las pruebas de integracion estan hechas con **Jest** y **Supertest**. La suite c
 
 ## 2. Pipeline de integracion continua
 
-El workflow `CI Inventario` se ejecuta en cada `push` a `main` y en cada `pull_request` dirigido a `main`. Tiene un unico job llamado `build-and-test` sobre `ubuntu-latest` con los siguientes pasos:
+El workflow CI Inventario se ejecuta en cada push a main y en cada pull request dirigido a main. Tiene un unico job llamado `build-and-test` sobre `ubuntu-latest` con los siguientes pasos:
 
 - **Checkout** del codigo con `actions/checkout@v6`.
 - **Setup** de Node.js 20 con cache de npm usando `actions/setup-node@v6`.
@@ -56,11 +56,11 @@ El workflow `CI Inventario` se ejecuta en cada `push` a `main` y en cada `pull_r
 
 **Nota:** el proyecto no requiere un paso de compilacion porque es JavaScript puro ejecutado con Node.js.
 
-## 3. Proteccion de la rama `main`
+## 3. Proteccion de la rama main
 
-Sobre la rama `main` se configuro una regla de proteccion con las siguientes opciones:
+Sobre la rama main se configuro una regla de proteccion con las siguientes opciones:
 
-- **Se requiere una solicitud de extraccion (pull request) antes de la fusion**, por lo que no se permiten pushes directos a `main`.
+- **Se requiere una solicitud de extraccion (pull request) antes de la fusion**, por lo que no se permiten pushes directos a main.
 - **Se exige que las comprobaciones de estado se superen antes de la fusion**, siendo la comprobacion obligatoria `CI Inventario / build-and-test`.
 - Inicialmente se exigio 1 aprobacion. Como el repositorio tiene un solo colaborador, ese requisito se desactivo para poder fusionar, manteniendo la PR obligatoria y el check de CI.
 
@@ -70,7 +70,7 @@ Gracias a esta configuracion, cualquier cambio debe pasar por una rama, abrir un
 
 ### 4.1 Historial de ejecuciones en la pestana Actions
 
-Se observan las cuatro ejecuciones del workflow: la ejecucion inicial exitosa, la ejecucion fallida de la pull request, la re-ejecucion corregida y la ejecucion del merge a `main`.
+Se observan las cuatro ejecuciones del workflow: la ejecucion inicial exitosa, la ejecucion fallida de la pull request, la re-ejecucion corregida y la ejecucion del merge a main.
 
 ![Historial de ejecuciones](./img/acciones_historial.png)
 
@@ -106,13 +106,13 @@ Tras corregir el error de linting, la comprobacion `build-and-test` pasa y GitHu
 
 ### 4.7 Pull request fusionada
 
-La pull request #1 se fusiono correctamente en `main` mediante el commit de merge `cb041d2`.
+La pull request #1 se fusiono correctamente en main mediante el commit de merge `cb041d2`.
 
 ![Pull request fusionada](./img/pr_merge.png)
 
 ### 4.8 Configuracion de la proteccion de rama
 
-Regla activa sobre `main`: solicitud de extraccion obligatoria y comprobaciones de estado obligatorias.
+Regla activa sobre main: solicitud de extraccion obligatoria y comprobaciones de estado obligatorias.
 
 ![Proteccion de rama](./img/proteccion_rama.png)
 
@@ -122,10 +122,10 @@ El objetivo del Laboratorio 5.1 fue comprender y aplicar integracion continua (C
 
 - Comprender la estructura de un workflow de GitHub Actions: eventos, jobs, pasos y runners.
 - Crear y configurar un archivo `.github/workflows/ci.yml` desde cero.
-- Automatizar la instalacion de dependencias, el linting y las pruebas ante eventos de `push` y `pull_request`.
+- Automatizar la instalacion de dependencias, el linting y las pruebas ante eventos de push y pull request.
 - Interpretar los resultados de ejecucion en la pestana Actions de GitHub.
 - Aplicar buenas practicas de CI, como el linting, las pruebas con cobertura y las matrices de versiones.
-- Configurar la proteccion de la rama `main` para exigir pull request y comprobaciones obligatorias.
+- Configurar la proteccion de la rama main para exigir pull request y comprobaciones obligatorias.
 
 Respecto al costo, GitHub Actions no consume minutos de ejecucion en repositorios publicos cuando se usan los runners estandar, por lo que este laboratorio se pudo ejecutar sin costo. GitLab CI tambien ofrece una capa gratuita, pero con una cantidad limitada de minutos de computo al mes. Por esa razon, GitHub resulta una opcion practica para un repositorio publico de practica.
 
@@ -148,7 +148,7 @@ npm start
 ```
 
 - `npm install` descarga e instala las dependencias declaradas en `package.json` (Express, Jest, Supertest y ESLint) dentro de `node_modules`. Se ejecuta una vez o cuando cambian las dependencias.
-- `npm start` ejecuta el script `start` de `package.json`, que a su vez corre `node server.js`. El servidor queda escuchando en el puerto `3000` (o el que indique la variable `PORT`).
+- `npm start` ejecuta el script `start` de `package.json`, que a su vez corre `node server.js`. El servidor queda escuchando en el puerto 3000 (o el que indique la variable `PORT`).
 
 ### 6.2 Pagina informativa
 
@@ -203,15 +203,15 @@ Despues se abre `http://localhost:3000/productos` y se observan los dos producto
 
 ## 7. Conclusiones y reflexion
 
-La integracion continua aporta valor al proyecto porque automatiza verificaciones que antes se hacian manualmente. En cada `push` y en cada pull request, el workflow `CI Inventario` instala las dependencias, ejecuta ESLint y corre las pruebas con cobertura. Esto permite detectar errores de linting, fallos en los endpoints o cambios que rompen pruebas antes de que el codigo llegue a `main`.
+La integracion continua aporta valor al proyecto porque automatiza verificaciones que antes se hacian manualmente. En cada push y en cada pull request, el workflow CI Inventario instala las dependencias, ejecuta ESLint y corre las pruebas con cobertura. Esto permite detectar errores de linting, fallos en los endpoints o cambios que rompen pruebas antes de que el codigo llegue a main.
 
-La proteccion de rama complementa al workflow: obliga a pasar por una pull request y exige que la comprobacion `CI Inventario / build-and-test` termine en verde antes de fusionar. En el ejercicio se comprobo el flujo completo: se creo una rama, se provoco un fallo intencional de linting, GitHub bloqueo la pull request, se corrigio el error y la fusion se habilito solo cuando las comprobaciones estuvieron correctas.
+La proteccion de rama complementa al workflow: obliga a pasar por una pull request y exige que la comprobacion `CI Inventario / build-and-test` termine en verde antes de fusionar. En el ejercicio se comprobo el flujo completo: se creo una rama, se provoco un fallo intencional de linting, GitHub bloqueo la pull request, se corrigio el error y la fusion se habilitó solo cuando las comprobaciones estuvieron correctas.
 
 Desde la perspectiva del proyecto, CI reduce el riesgo de integrar codigo defectuoso y da confianza para refactorizar o agregar endpoints, porque la suite de pruebas y el linting actuan como una red de seguridad. Tambien deja un historial de ejecuciones que sirve como evidencia y facilita identificar en que commit se introdujo un problema.
 
 Como reflexion, CI no reemplaza la revision de codigo ni las pruebas bien disenadas: el pipeline solo verifica lo que se le indica. Si una prueba no cubre un caso o el linting no detecta un problema logico, el workflow puede pasar en verde aunque exista un error. Por eso es importante mantener las pruebas actualizadas y complementar el pipeline con revisiones y, mas adelante, con analisis de seguridad.
 
-Finalmente, GitHub Actions resulta una herramienta practica para este tipo de proyectos porque no consume minutos en repositorios publicos con runners estandar, a diferencia de otros servicios que limitan los minutos gratuitos. Esto permite practicar CI sin costo y prepara el camino para el Laboratorio 5.2, donde el mismo repositorio se extendera con un pipeline de despliegue continuo.
+Finalmente, GitHub Actions resulta una herramienta practica para este tipo de proyectos porque no consume minutos en repositorios publicos con runners estandar, a diferencia de otros servicios que limitan los minutos gratuitos. Esto permite practicar CI sin costo.
 
 ## 8. Anexo: capturas completas del proceso
 
@@ -221,7 +221,7 @@ En esta seccion se incluyen las 50 capturas del proceso completo, en orden crono
 
 ### 8.1 Creacion y configuracion inicial (01-06)
 
-- **01. Creacion del repositorio en GitHub.** Se observa el formulario de creacion con el nombre `inventario-ci` y la visibilidad publica del repositorio.
+- **01. Creacion del repositorio en GitHub.** Se observa el formulario de creacion con el nombre inventario-ci y la visibilidad publica del repositorio.
 
   ![01](./img/anexo/01.png)
 
@@ -247,7 +247,7 @@ En esta seccion se incluyen las 50 capturas del proceso completo, en orden crono
 
 ### 8.2 Workflow y verificacion local (07-12)
 
-- **07. Workflow ci.yml (parte 1).** Se muestra el nombre del workflow y los eventos que lo disparan: `push` y `pull_request` sobre la rama `main`.
+- **07. Workflow ci.yml (parte 1).** Se muestra el nombre del workflow y los eventos que lo disparan: push y pull request sobre la rama main.
 
   ![07](./img/anexo/07.png)
 
@@ -273,7 +273,7 @@ En esta seccion se incluyen las 50 capturas del proceso completo, en orden crono
 
 ### 8.3 Ejecuciones en Actions (13-16)
 
-- **13. Historial de ejecuciones.** Se muestra la pestana Actions con el historial inicial de ejecuciones del workflow `CI Inventario`.
+- **13. Historial de ejecuciones.** Se muestra la pestana Actions con el historial inicial de ejecuciones del workflow CI Inventario.
 
   ![13](./img/anexo/13.png)
 
@@ -321,7 +321,7 @@ En esta seccion se incluyen las 50 capturas del proceso completo, en orden crono
 
   ![23](./img/anexo/23.png)
 
-- **24. Patron de rama main.** Se observa el formulario de la regla con el patron `main` y la exigencia de una pull request antes de fusionar.
+- **24. Patron de rama main.** Se observa el formulario de la regla con el patron main y la exigencia de una pull request antes de fusionar.
 
   ![24](./img/anexo/24.png)
 
@@ -329,7 +329,7 @@ En esta seccion se incluyen las 50 capturas del proceso completo, en orden crono
 
   ![25](./img/anexo/25.png)
 
-- **26. Regla de proteccion creada.** Se confirma que la regla de proteccion fue creada y aplicada a la rama `main`.
+- **26. Regla de proteccion creada.** Se confirma que la regla de proteccion fue creada y aplicada a la rama main.
 
   ![26](./img/anexo/26.png)
 
@@ -347,7 +347,7 @@ En esta seccion se incluyen las 50 capturas del proceso completo, en orden crono
 
   ![29](./img/anexo/29.png)
 
-- **30. Comparacion y creacion de la pull request.** GitHub muestra la comparacion entre `feature/prueba-ci` y `main` antes de crear la pull request.
+- **30. Comparacion y creacion de la pull request.** GitHub muestra la comparacion entre `feature/prueba-ci` y main antes de crear la pull request.
 
   ![30](./img/anexo/30.png)
 
@@ -405,11 +405,11 @@ En esta seccion se incluyen las 50 capturas del proceso completo, en orden crono
 
   ![43](./img/anexo/43.png)
 
-- **44. PR fusionada correctamente.** La pull request aparece como fusionada en `main` mediante el commit `cb041d2`.
+- **44. PR fusionada correctamente.** La pull request aparece como fusionada en main mediante el commit `cb041d2`.
 
   ![44](./img/anexo/44.png)
 
-- **45. Historial final de ejecuciones en Actions.** Se observan las cuatro ejecuciones finales: la inicial, la de la PR fallida, la de la PR corregida y la del merge a `main`.
+- **45. Historial final de ejecuciones en Actions.** Se observan las cuatro ejecuciones finales: la inicial, la de la PR fallida, la de la PR corregida y la del merge a main.
 
   ![45](./img/anexo/45.png)
 
