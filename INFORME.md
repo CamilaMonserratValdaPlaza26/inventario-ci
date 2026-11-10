@@ -201,11 +201,17 @@ Despues se abre `http://localhost:3000/productos` y se observan los dos producto
 
 **Figura 6.5.** Segunda captura de las peticiones `POST /productos`. Se incluye como evidencia adicional para mostrar con mas detalle los comandos ejecutados y las respuestas obtenidas al crear los dos productos.
 
-## 7. Conclusiones
+## 7. Conclusiones y reflexion
 
-La integracion continua permite detectar errores de linting y de pruebas antes de integrar cambios a `main`. La proteccion de rama obliga a que todo cambio pase por una pull request y que el workflow `CI Inventario` se ejecute correctamente antes de fusionar, lo que mejora la calidad del codigo y evita subir cambios incompletos o defectuosos.
+La integracion continua aporta valor al proyecto porque automatiza verificaciones que antes se hacian manualmente. En cada `push` y en cada pull request, el workflow `CI Inventario` instala las dependencias, ejecuta ESLint y corre las pruebas con cobertura. Esto permite detectar errores de linting, fallos en los endpoints o cambios que rompen pruebas antes de que el codigo llegue a `main`.
 
-El ejercicio tambien demuestra el flujo completo: se creo una rama, se provoco un fallo intencional, se verifico el bloqueo de la pull request, se corrigio el error y finalmente se fusiono el cambio solo cuando las comprobaciones estuvieron en verde.
+La proteccion de rama complementa al workflow: obliga a pasar por una pull request y exige que la comprobacion `CI Inventario / build-and-test` termine en verde antes de fusionar. En el ejercicio se comprobo el flujo completo: se creo una rama, se provoco un fallo intencional de linting, GitHub bloqueo la pull request, se corrigio el error y la fusion se habilito solo cuando las comprobaciones estuvieron correctas.
+
+Desde la perspectiva del proyecto, CI reduce el riesgo de integrar codigo defectuoso y da confianza para refactorizar o agregar endpoints, porque la suite de pruebas y el linting actuan como una red de seguridad. Tambien deja un historial de ejecuciones que sirve como evidencia y facilita identificar en que commit se introdujo un problema.
+
+Como reflexion, CI no reemplaza la revision de codigo ni las pruebas bien disenadas: el pipeline solo verifica lo que se le indica. Si una prueba no cubre un caso o el linting no detecta un problema logico, el workflow puede pasar en verde aunque exista un error. Por eso es importante mantener las pruebas actualizadas y complementar el pipeline con revisiones y, mas adelante, con analisis de seguridad.
+
+Finalmente, GitHub Actions resulta una herramienta practica para este tipo de proyectos porque no consume minutos en repositorios publicos con runners estandar, a diferencia de otros servicios que limitan los minutos gratuitos. Esto permite practicar CI sin costo y prepara el camino para el Laboratorio 5.2, donde el mismo repositorio se extendera con un pipeline de despliegue continuo.
 
 ## 8. Anexo: capturas completas del proceso
 
@@ -407,7 +413,7 @@ En esta seccion se incluyen las 50 capturas del proceso completo, en orden crono
 
   ![45](./img/anexo/45.png)
 
-### 8.8 Interfaz de visualizacion (46-50)
+### 8.8 Interfaz de visualizacion
 
 - **46. Pagina informativa de la API.** Se observa la pagina agregada en `http://localhost:3000/`, con el nombre de la API, una descripcion breve, los botones hacia `/health` y `/productos`, y la tabla de endpoints. La ruta `GET /` devuelve HTML y no afecta la logica del CRUD.
 
