@@ -790,3 +790,32 @@ El fallo intencional fue especialmente útil: al introducir una llave adicional 
 La matriz de ejecución mostró otra ventaja de CI: el mismo conjunto de pruebas se ejecutó en paralelo con Node.js 20 y Node.js 22, sin duplicar trabajo manual. Esto ayuda a detectar incompatibilidades entre versiones antes de que el código llegue a producción.
 
 En conjunto, el laboratorio demuestra que GitHub Actions permite automatizar la calidad del código con poco esfuerzo de configuración y que las capturas de cada etapa sirven como evidencia de que el pipeline funcionó de principio a fin.
+
+## Comandos utilizados
+
+Esta lista reune los comandos que se ejecutaron durante el laboratorio y su proposito en una linea.
+
+- **git clone URL**: se descargo el repositorio remoto en el equipo local.
+- **git status**: se reviso el estado de los archivos del repositorio.
+- **git config user.name y user.email**: se configuro la identidad de Git para los commits.
+- **git add .**: se prepararon todos los cambios para el commit.
+- **git commit -m mensaje**: se guardaron los cambios en el historial local.
+- **git push origin main**: se subieron los cambios a la rama principal.
+- **git checkout -b feature/prueba-ci**: se creo la rama de trabajo para la pull request.
+- **git push origin feature/prueba-ci**: se subio la rama de trabajo al repositorio remoto.
+- **npm init -y**: se inicializo el proyecto Node.js y se genero el package.json.
+- **npm install**: se instalaron las dependencias del proyecto.
+- **npm ci**: se instalaron las dependencias dentro del workflow usando el package-lock.
+- **npm install express**: se instalo Express.
+- **npm install --save-dev jest supertest**: se instalaron Jest y Supertest como dependencias de desarrollo.
+- **npm install --save-dev eslint**: se instalo ESLint.
+- **npx eslint --init**: se genero la configuracion de ESLint.
+- **npm list**: se verificaron las versiones instaladas.
+- **npm view**: se consultaron las versiones disponibles de los paquetes.
+- **npm start**: se inicio el servidor en el puerto 3000.
+- **npm test**: se ejecutaron las pruebas automatizadas.
+- **npm run lint**: se ejecuto el analisis estatico con ESLint.
+- **npm run test:coverage**: se ejecutaron las pruebas con reporte de cobertura.
+- **curl -X POST http://localhost:3000/productos -H "Content-Type: application/json" -d JSON**: se crearon productos de ejemplo en la API.
+
+Dentro del workflow de GitHub Actions, los comandos npm ci, npm run lint y npm run test:coverage se ejecutan de forma automatica; no se escriben a mano en cada ejecucion.
