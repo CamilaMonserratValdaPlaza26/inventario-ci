@@ -258,199 +258,215 @@ En esta seccion se incluyen las 50 capturas del proceso completo, en orden crono
 
 ### 8.1 Creacion y configuracion inicial (01-06)
 
-- **01. Creacion del repositorio en GitHub.** Se observa el formulario de creacion con el nombre inventario-ci y la visibilidad publica del repositorio.
+Las imagenes de esta seccion son la 01 a la 06.
+
+- **01. Creacion del repositorio en GitHub.** Se observa el formulario de creacion de un repositorio nuevo con el nombre `inventario-ci`, la visibilidad publica y la opcion de agregar un archivo README. El formulario confirma que el repositorio se crea vacio, sin plantilla, para subir despues el proyecto desde el equipo local.
 
   ![01](./img/anexo/01.png)
 
-- **02. Repositorio publico creado.** Se muestra la pagina principal del repositorio ya creado, con el boton para copiar la URL de clonacion.
+- **02. Repositorio publico creado.** Se muestra la pagina principal del repositorio ya creado, con la rama `main`, el archivo README y el boton para copiar la URL de clonacion. Esta URL es la que se usa en el paso siguiente para descargar el repositorio.
 
   ![02](./img/anexo/02.png)
 
-- **03. Clonacion del repositorio.** La terminal ejecuta `git clone` y descarga el repositorio en el equipo local.
+- **03. Clonacion del repositorio.** La terminal ejecuta `git clone` sobre la URL del repositorio y muestra el progreso de la descarga. Al final se crea la carpeta local `inventario-ci`, que queda vinculada al remoto `origin`.
 
   ![03](./img/anexo/03.png)
 
-- **04. Instalacion de dependencias con npm.** La terminal ejecuta `npm install` e instala Express, Jest, Supertest y ESLint.
+- **04. Instalacion de dependencias con npm.** La terminal ejecuta `npm install` e instala Express, Jest, Supertest y ESLint dentro de `node_modules`. Se observan los mensajes de instalacion y la creacion del archivo `package-lock.json`, que fija las versiones exactas de las dependencias.
 
   ![04](./img/anexo/04.png)
 
-- **05. Scripts de package.json.** Se muestran los scripts `start`, `test`, `test:coverage` y `lint`, ademas de la configuracion de Jest para la cobertura.
+- **05. Scripts de package.json.** Se muestran los scripts `start`, `test`, `test:coverage` y `lint`, ademas de la configuracion de Jest para recolectar la cobertura de `src/**/*.js` y guardarla en la carpeta `coverage`. Estos scripts son los que ejecuta el workflow de integracion continua.
 
   ![05](./img/anexo/05.png)
 
-- **06. Inicializacion de ESLint.** La terminal ejecuta la configuracion inicial de ESLint y genera el archivo `eslint.config.mjs`.
+- **06. Inicializacion de ESLint.** La terminal ejecuta la configuracion inicial de ESLint y genera el archivo `eslint.config.mjs`. La configuracion define el entorno de Node.js y las reglas que se aplican al codigo; el comando `npm run lint` usara ese archivo en las verificaciones locales y en el pipeline.
 
   ![06](./img/anexo/06.png)
 
 ### 8.2 Workflow y verificacion local (07-12)
 
-- **07. Workflow ci.yml (parte 1).** Se muestra el nombre del workflow y los eventos que lo disparan: push y pull request sobre la rama main.
+Las imagenes de esta seccion son la 07 a la 12.
+
+- **07. Workflow ci.yml (parte 1).** Se muestra la primera parte del archivo `ci.yml`: el nombre `CI Inventario`, los eventos `push` y `pull_request` limitados a la rama `main`, el job `build-and-test` sobre `ubuntu-latest` y los pasos de checkout con `actions/checkout@v6`, configuracion de Node.js 20 con cache de npm y ejecucion de `npm ci`. La terminal muestra ademas la creacion de la carpeta `.github/workflows` y del archivo con `mkdir` y `touch`.
 
   ![07](./img/anexo/07.png)
 
-- **08. Workflow ci.yml (parte 2).** Se muestran los pasos del job: checkout, configuracion de Node.js, instalacion, linting, pruebas con cobertura y publicacion del artefacto.
+- **08. Workflow ci.yml (parte 2).** Se muestra la segunda parte del workflow: el paso de linting con `npm run lint`, las pruebas con cobertura con `npm run test:coverage` y la publicacion del reporte con `actions/upload-artifact@v4`, usando el nombre `coverage-report` y la ruta `coverage/`. Con esto el pipeline no solo prueba el codigo, sino que conserva el reporte de cobertura como artefacto.
 
   ![08](./img/anexo/08.png)
 
-- **09. Ejecucion de pruebas.** La terminal ejecuta `npm test` y muestra las 10 pruebas aprobadas de la suite.
+- **09. Ejecucion de pruebas.** La terminal ejecuta `npm test` y muestra las 10 pruebas aprobadas de la suite. Se observan los nombres de los archivos de prueba, la cantidad de pruebas y el tiempo total, lo que confirma que la aplicacion funciona antes de subir el cambio.
 
   ![09](./img/anexo/09.png)
 
-- **10. Ejecucion de linting.** La terminal ejecuta `npm run lint` y finaliza sin errores.
+- **10. Ejecucion de linting.** La terminal ejecuta `npm run lint` y finaliza sin errores. Que el comando termine sin salida de error indica que el codigo cumple las reglas de ESLint y que el paso equivalente del workflow tambien deberia pasar.
 
   ![10](./img/anexo/10.png)
 
-- **11. Pruebas con cobertura.** La terminal ejecuta `npm run test:coverage` y muestra las pruebas aprobadas junto con la tabla de cobertura.
+- **11. Pruebas con cobertura.** La terminal ejecuta `npm run test:coverage` y muestra las pruebas aprobadas junto con la tabla de cobertura por archivo. La tabla detalla sentencias, ramas, funciones y lineas cubiertas, y es la misma informacion que el workflow publica como artefacto.
 
   ![11](./img/anexo/11.png)
 
-- **12. Reporte de cobertura (98.27 %).** Se observa el resumen de cobertura: 98.27 % de sentencias, 85.71 % de ramas y 100 % de funciones y lineas.
+- **12. Reporte de cobertura (98.27 %).** Se observa el resumen de cobertura: 98.27 % de sentencias, 85.71 % de ramas y 100 % de funciones y lineas. El porcentaje alto confirma que las pruebas ejercitan la mayor parte de la logica del CRUD y que el reporte generado por Jest es una evidencia medible de calidad.
 
   ![12](./img/anexo/12.png)
 
 ### 8.3 Ejecuciones en Actions (13-16)
 
-- **13. Historial de ejecuciones.** Se muestra la pestana Actions con el historial inicial de ejecuciones del workflow CI Inventario.
+Las imagenes de esta seccion son la 13 a la 16.
+
+- **13. Historial de ejecuciones.** Se muestra la pestana Actions con el historial inicial de ejecuciones del workflow `CI Inventario`. Se observan las ejecuciones asociadas a los commits y el estado de cada una, lo que confirma que GitHub Actions detecta los push al repositorio.
 
   ![13](./img/anexo/13.png)
 
-- **14. Historial de ejecuciones (detalle).** Se observa la ejecucion inicial en verde, con su duracion y el commit que la origino.
+- **14. Historial de ejecuciones (detalle).** Se observa la ejecucion inicial en verde, con su duracion y el commit que la origino. El detalle permite comprobar que el workflow se ejecuto sobre el commit correcto y que termino sin errores.
 
   ![14](./img/anexo/14.png)
 
-- **15. Resumen de la ejecucion exitosa.** Se muestra el commit `7cb6c27`, el estado «Exito», una duracion de 21 segundos y un artefacto generado.
+- **15. Resumen de la ejecucion exitosa.** Se muestra el commit `7cb6c27`, el estado «Exito», una duracion de 21 segundos y un artefacto generado. El artefacto corresponde al reporte de cobertura, por lo que la ejecucion deja evidencia descargable del resultado de las pruebas.
 
   ![15](./img/anexo/15.png)
 
-- **16. Pasos del job exitoso.** Se detalla el job `build-and-test` con todos sus pasos en verde, incluidos el linting y las pruebas con cobertura.
+- **16. Pasos del job exitoso.** Se detalla el job `build-and-test` con todos sus pasos en verde: checkout, configuracion de Node.js, instalacion de dependencias, linting, pruebas con cobertura y publicacion del artefacto. Esta vista demuestra que cada etapa del pipeline se ejecuto en el orden previsto.
 
   ![16](./img/anexo/16.png)
 
 ### 8.4 Codigo de la aplicacion (17-22)
 
-- **17. app.js - configuracion inicial.** Se muestra la creacion de la aplicacion Express y la ruta `/health` para verificar el estado del servicio.
+Las imagenes de esta seccion son la 17 a la 22.
+
+- **17. Commit inicial de la API.** La terminal ejecuta `git add .`, `git commit -m "feat: agrega API CRUD de inventario con pruebas y CI"` y `git push origin main`. El commit `7cb6c27` registra 11 archivos y 6715 inserciones, entre ellos `ci.yml`, `eslint.config.mjs`, `package.json`, `server.js`, `src/app.js`, `src/store.js` y `tests/productos.test.js`. En el editor se observa el inicio de `src/app.js` con el comentario que importa Express y el almacen de productos.
 
   ![17](./img/anexo/17.png)
 
-- **18. app.js - consultas.** Se muestran las rutas `GET /productos` y `GET /productos/:id` para listar y obtener productos.
+- **18. app.js - configuracion y consultas.** Se muestra `src/app.js` con la importacion de Express y del almacen, la creacion de `app`, el middleware `express.json()` y las rutas `GET /health`, `GET /productos` y `GET /productos/:id`. La ruta de salud responde `{ status: 'ok' }`, la lista devuelve `store.listar()` y el detalle usa `store.obtener(Number(req.params.id))` con respuesta 404 cuando el producto no existe.
 
   ![18](./img/anexo/18.png)
 
-- **19. app.js - creacion.** Se muestra la ruta `POST /productos` con la validacion de los datos recibidos.
+- **19. app.js - creacion, actualizacion y borrado.** Se muestra la ruta `POST /productos`, que desestructura `nombre`, `precio` y `stock`, valida que los campos existan y que los numeros sean de tipo `number`, y responde 400 si falta algo. Tambien se observan `PUT /productos/:id`, que usa `store.actualizar`, y `DELETE /productos/:id`, que usa `store.eliminar`; ambas responden 404 si el producto no existe. Al final se exporta `app` para las pruebas.
 
   ![19](./img/anexo/19.png)
 
-- **20. app.js - actualizacion y borrado.** Se muestran las rutas `PUT /productos/:id` y `DELETE /productos/:id`.
+- **20. app.js - detalle de actualizacion y borrado.** Se observa en detalle el final de `PUT /productos/:id` y `DELETE /productos/:id`, con las respuestas 404 cuando no se encuentra el producto, 200 con el producto actualizado y 204 sin contenido al eliminar. Tambien se ve `module.exports = app`, necesario para que Jest y Supertest puedan importar la aplicacion sin levantar el servidor.
 
   ![20](./img/anexo/20.png)
 
-- **21. store.js - almacen en memoria.** Se muestra la estructura del almacen de productos y la funcion que lo reinicia.
+- **21. store.js - almacen en memoria.** Se muestra `src/store.js` con el arreglo `productos`, el contador `siguienteId`, la funcion `reiniciar()` que limpia el almacen para las pruebas y las funciones `listar()`, `obtener(id)` y `crear({ nombre, precio, stock })`. La funcion `crear` asigna el identificador, incrementa el contador, agrega el producto al arreglo y lo devuelve.
 
   ![21](./img/anexo/21.png)
 
-- **22. store.js - operaciones CRUD.** Se muestran las funciones `listar`, `obtener`, `crear`, `actualizar` y `eliminar`.
+- **22. store.js - actualizacion y borrado.** Se completa el almacen con `actualizar(id, datos)`, que modifica solo los campos enviados y devuelve `null` si el producto no existe, y `eliminar(id)`, que busca el indice, devuelve `false` si no lo encuentra y usa `splice` para quitarlo. Al final se exportan `reiniciar`, `listar`, `obtener`, `crear`, `actualizar` y `eliminar` como API del almacen.
 
   ![22](./img/anexo/22.png)
 
 ### 8.5 Proteccion de rama (23-26)
 
-- **23. Inicio de la configuracion.** Se muestra la seccion «Ramas» de la configuracion del repositorio y la opcion para agregar una regla clasica de proteccion.
+Las imagenes de esta seccion son la 23 a la 26.
+
+- **23. Inicio de la configuracion.** Se muestra la seccion «Ramas» de la configuracion del repositorio y la opcion para agregar una regla clasica de proteccion. Desde esta pantalla se define que la rama `main` no acepte cambios directos.
 
   ![23](./img/anexo/23.png)
 
-- **24. Patron de rama main.** Se observa el formulario de la regla con el patron main y la exigencia de una pull request antes de fusionar.
+- **24. Patron de rama main.** Se observa el formulario de la regla con el patron `main` y la exigencia de una pull request antes de fusionar. La regla obliga a trabajar en una rama aparte y a integrar los cambios mediante una PR revisada por el workflow.
 
   ![24](./img/anexo/24.png)
 
-- **25. Seleccion del check obligatorio.** Se muestra la seleccion del check `build-and-test` como comprobacion de estado obligatoria en la regla de proteccion.
+- **25. Seleccion del check obligatorio.** Se muestra la seleccion del check `build-and-test` como comprobacion de estado obligatoria en la regla de proteccion. Con esta opcion GitHub bloquea la fusion mientras el workflow no termine en verde.
 
   ![25](./img/anexo/25.png)
 
-- **26. Regla de proteccion creada.** Se confirma que la regla de proteccion fue creada y aplicada a la rama main.
+- **26. Regla de proteccion creada.** Se confirma que la regla de proteccion fue creada y aplicada a la rama `main`. A partir de ese momento los push directos quedan restringidos y la integracion debe pasar por una pull request con el check aprobado.
 
   ![26](./img/anexo/26.png)
 
 ### 8.6 Pull request, fallo y correccion (27-38)
 
-- **27. Fallo intencional de linting (codigo).** Se muestra la variable asignada y no utilizada que se agrego intencionalmente para forzar el fallo de ESLint.
+Las imagenes de esta seccion son la 27 a la 38.
+
+- **27. Fallo intencional de linting (codigo).** Se muestra el codigo de `src/app.js` con una variable asignada y no utilizada que se agrego intencionalmente. El objetivo es que ESLint detecte la regla `no-unused-vars` y que el pipeline falle antes de integrar el cambio.
 
   ![27](./img/anexo/27.png)
 
-- **28. Fallo de linting en local.** La terminal muestra el error `no-unused-vars` reportado por ESLint antes de subir el cambio.
+- **28. Fallo de linting en local.** La terminal muestra el error `no-unused-vars` reportado por ESLint antes de subir el cambio. El mensaje indica el archivo y la linea exacta, por lo que el problema se puede corregir antes de abrir la pull request.
 
   ![28](./img/anexo/28.png)
 
-- **29. Creacion de la rama de funcion.** La terminal muestra la creacion y el push de la rama `feature/prueba-ci`.
+- **29. Creacion de la rama de funcion.** La terminal muestra la creacion y el push de la rama `feature/prueba-ci` con `git checkout -b` y `git push origin`. La rama permite aislar el cambio intencional y abrir una pull request hacia `main`.
 
   ![29](./img/anexo/29.png)
 
-- **30. Comparacion y creacion de la pull request.** GitHub muestra la comparacion entre `feature/prueba-ci` y main antes de crear la pull request.
+- **30. Comparacion y creacion de la pull request.** GitHub muestra la comparacion entre `feature/prueba-ci` y `main` antes de crear la pull request. Se observan los archivos modificados y el boton para crear la PR, que disparara el workflow configurado para `pull_request`.
 
   ![30](./img/anexo/30.png)
 
-- **31. Pull request creada.** Se muestra la pull request #1 con el cambio intencional y la ejecucion del workflow en curso.
+- **31. Pull request creada.** Se muestra la pull request #1 con el cambio intencional y la ejecucion del workflow en curso. La PR queda abierta y el check de CI aparece como pendiente mientras GitHub ejecuta el pipeline.
 
   ![31](./img/anexo/31.png)
 
-- **32. PR con revision requerida y check en curso.** La pull request indica que se requiere una revision y que la comprobacion de CI esta en progreso.
+- **32. PR con revision requerida y check en curso.** La pull request indica que se requiere una revision y que la comprobacion de CI esta en progreso. En ese momento la fusion no esta habilitada porque falta que el workflow termine.
 
   ![32](./img/anexo/32.png)
 
-- **33. PR bloqueada por checks fallidos.** GitHub muestra «All checks have failed» y marca el check `CI Inventario / build-and-test` como obligatorio, por lo que la fusion queda bloqueada.
+- **33. PR bloqueada por checks fallidos.** GitHub muestra «All checks have failed» y marca el check `CI Inventario / build-and-test` como obligatorio, por lo que la fusion queda bloqueada. Esta es la evidencia de que la proteccion de rama impide integrar codigo que no pasa el pipeline.
 
   ![33](./img/anexo/33.png)
 
-- **34. Detalle del workflow fallido.** Se muestra el detalle de la ejecucion fallida con el error de linting que impide la fusion.
+- **34. Detalle del workflow fallido.** Se muestra el detalle de la ejecucion fallida con el error de linting que impide la fusion. El log del paso de linting confirma que el fallo se produce en ESLint y no en la instalacion ni en las pruebas.
 
   ![34](./img/anexo/34.png)
 
-- **35. Correccion y verificacion local.** Se muestra la correccion del codigo y la ejecucion local de linting y pruebas, ambas exitosas.
+- **35. Correccion y verificacion local.** Se muestra la correccion del codigo, que elimina la variable no utilizada, y la ejecucion local de linting y pruebas, ambas exitosas. Con la verificacion local se evita subir un cambio que vuelva a fallar en el pipeline.
 
   ![35](./img/anexo/35.png)
 
-- **36. PR aun abierta con revision requerida.** La pull request sigue abierta mientras se espera la revision.
+- **36. PR aun abierta con revision requerida.** La pull request sigue abierta mientras se espera la revision. La captura muestra que la fusion todavia no esta disponible aunque el check pueda estar en curso.
 
   ![36](./img/anexo/36.png)
 
-- **37. Push de la correccion.** La terminal muestra el push del commit de correccion a la rama de funcion.
+- **37. Push de la correccion.** La terminal muestra el push del commit de correccion a la rama de funcion. Ese nuevo commit actualiza la pull request y dispara una nueva ejecucion del workflow con el codigo corregido.
 
   ![37](./img/anexo/37.png)
 
-- **38. Historial de commits de la PR.** Se observa el commit con el fallo y, despues, el commit corregido marcado en verde.
+- **38. Historial de commits de la PR.** Se observa el commit con el fallo (`82079d8`) y, despues, el commit corregido (`2cdfde5`) marcado en verde. El historial demuestra que la PR conserva ambos intentos y que el ultimo commit es el que pasa las comprobaciones.
 
   ![38](./img/anexo/38.png)
 
 ### 8.7 Cierre: checks, merge e historial (39-45)
 
-- **39. Regla de proteccion final.** Se muestra la regla definitiva: pull request obligatoria y comprobaciones de estado obligatorias, sin aprobaciones por ser un unico colaborador.
+Las imagenes de esta seccion son la 39 a la 45.
+
+- **39. Regla de proteccion final.** Se muestra la regla definitiva: pull request obligatoria y comprobaciones de estado obligatorias, sin aprobaciones por ser un unico colaborador. La regla mantiene el control de calidad sin bloquear el trabajo individual.
 
   ![39](./img/anexo/39.png)
 
-- **40. PR con todos los checks superados.** La pull request muestra todas las comprobaciones en verde y el boton de fusion habilitado.
+- **40. PR con todos los checks superados.** La pull request muestra todas las comprobaciones en verde y el boton de fusion habilitado. Esto confirma que la correccion del codigo permitio superar el check `build-and-test`.
 
   ![40](./img/anexo/40.png)
 
-- **41. PR lista para fusionar.** Se muestra el estado de fusion indicando que todas las comprobaciones fueron superadas y que no hay conflictos.
+- **41. PR lista para fusionar.** Se muestra el estado de fusion indicando que todas las comprobaciones fueron superadas y que no hay conflictos. GitHub habilita la fusion porque se cumplen la regla de proteccion y el check obligatorio.
 
   ![41](./img/anexo/41.png)
 
-- **42. Estado de fusion.** Se observa el panel de estado de fusion antes de confirmar el merge.
+- **42. Estado de fusion.** Se observa el panel de estado de fusion antes de confirmar el merge. El panel resume los checks aprobados y el tipo de fusion que se aplicara a `main`.
 
   ![42](./img/anexo/42.png)
 
-- **43. Confirmacion del merge.** Se muestra la confirmacion del merge con el mensaje de commit generado por GitHub.
+- **43. Confirmacion del merge.** Se muestra la confirmacion del merge con el mensaje de commit generado por GitHub. Al confirmar, la pull request se integra a `main` y el commit de merge queda registrado en el historial.
 
   ![43](./img/anexo/43.png)
 
-- **44. PR fusionada correctamente.** La pull request aparece como fusionada en main mediante el commit `cb041d2`.
+- **44. PR fusionada correctamente.** La pull request aparece como fusionada en `main` mediante el commit `cb041d2`. Se observan los dos commits de la rama, el fallido `82079d8` y el corregido `2cdfde5`, y la confirmacion de que el check paso.
 
   ![44](./img/anexo/44.png)
 
-- **45. Historial final de ejecuciones en Actions.** Se observan las cuatro ejecuciones finales: la inicial, la de la PR fallida, la de la PR corregida y la del merge a main.
+- **45. Historial final de ejecuciones en Actions.** Se observan las cuatro ejecuciones finales: la inicial, la de la PR fallida, la de la PR corregida y la del merge a `main`. El historial completo demuestra el ciclo de integracion continua de principio a fin.
 
   ![45](./img/anexo/45.png)
 
-### 8.8 Interfaz de visualizacion
+### 8.8 Interfaz de visualizacion (46-50)
+
+Las imagenes de esta seccion son la 46 a la 50.
 
 - **46. Pagina informativa de la API.** Se observa la pagina agregada en `http://localhost:3000/`, con el nombre de la API, una descripcion breve, los botones hacia `/health` y `/productos`, y la tabla de endpoints. La ruta `GET /` devuelve HTML y no afecta la logica del CRUD.
 
@@ -471,7 +487,6 @@ En esta seccion se incluyen las 50 capturas del proceso completo, en orden crono
 - **50. Detalle de las peticiones POST.** Se observa una segunda captura de los mismos comandos `curl` y de sus respuestas. Se incluye como evidencia adicional para mostrar con mas detalle el cuerpo JSON enviado y los identificadores asignados a cada producto.
 
   ![50](./img/anexo/50.png)
-
 
 # Parte II: Ejercicios del laboratorio
 
