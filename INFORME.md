@@ -42,7 +42,26 @@ El Laboratorio 5.1 busca comprender y aplicar integracion continua con GitHub Ac
 
 ## Estructura del informe
 
-El informe se divide en dos partes. Primero se presenta la practica individual y mas abajo, separados y numerados, los ejercicios 3.1 a 3.4, narrados como indica la guia.
+El informe se divide en dos partes. Primero se presenta la practica individual y mas abajo, separados y numerados, los ejercicios 3.1 a 3.4, narrados como indica la guia. La Parte I reune las capturas de la practica individual y la Parte II las capturas de los ejercicios, sin omitir evidencias.
+
+## Contenido
+
+- Parte I: Practica individual
+  - 1. Descripcion del proyecto
+  - 2. Pipeline de integracion continua
+  - 3. Proteccion de la rama main
+  - 4. Evidencias principales
+  - 5. Objetivos y aprendizajes del Laboratorio 5.1
+  - 6. Interfaz de visualizacion
+  - 7. Conclusiones y reflexion
+  - 8. Anexo: capturas completas del proceso
+- Parte II: Ejercicios del laboratorio
+  - Introduccion
+  - Ejercicio 3.1: Preparacion del repositorio y la aplicacion
+  - Ejercicio 3.2: Creacion del workflow de CI
+  - Ejercicio 3.3: Extension del pipeline con calidad de codigo
+  - Ejercicio 3.4: Uso de matrices de ejecucion
+  - Conclusiones de los ejercicios
 
 # Parte I: Practica individual
 
