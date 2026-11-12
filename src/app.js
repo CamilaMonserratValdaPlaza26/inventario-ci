@@ -8,7 +8,7 @@ app.use(express.json());
 
 // Ruta de estado del servicio
 app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'ok' });
+  res.status(200).json({ status: 'HOLA SOY MONSE, ES DE PRUEBA' });
 });
 
 // Pagina informativa de la API (evidencia del Laboratorio 5.1)
