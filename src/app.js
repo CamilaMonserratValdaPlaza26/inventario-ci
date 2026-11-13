@@ -5,10 +5,11 @@ const store = require('./store');
 // Crea la aplicacion
 const app = express();
 app.use(express.json());
+// HOLA SOY MONSE ESTA ES UNA PRUEBA
 
 // Ruta de estado del servicio
 app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'HOLA SOY MONSE, ES DE PRUEBA' });
+  res.status(200).json({ status: 'ok' });
 });
 
 // Pagina informativa de la API (evidencia del Laboratorio 5.1)
@@ -140,3 +141,4 @@ app.delete('/productos/:id', (req, res) => {
 
 // Exporta la app para las pruebas
 module.exports = app;
+//HOLAAA SOY MONSE ESTO ES UNA PRUEBA 2,0
